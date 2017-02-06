@@ -1,6 +1,6 @@
 # SEMINAIRES
 
-Une application Django/Wagtail (python3) qui genere les fichiers .ics (iCalendar) pour permettre une collecte de flux par l'Agenda des Mathematiques ( https://portail.math.cnrs.fr/agenda ).
+Une application Django/Wagtail (python3) qui genere les fichiers .ics (iCalendar) et .json pour permettre une collecte de flux par l'Agenda des Mathematiques ( https://portail.math.cnrs.fr/agenda ).
 
 Les fichiers sont generes depuis les Evenements stockes en base grace au modele de page EventPage.
 
