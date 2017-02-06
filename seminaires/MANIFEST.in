@@ -1,0 +1,5 @@
+include LICENSE
+include README.rst
+recursive-include seminaires/static *
+recursive-include seminaires/templates *
+recursive-include seminaires/media *

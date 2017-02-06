@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static core_tags wagtailcore_tags %}
+
+{% load wagtailuserbar %}
+...
+{% wagtailuserbar %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block content %}
+
+    <h1>{{ self.title }}</h1>
+
+    <h5>
+        <span class="date">
+		  <i class="material-icons left">schedule</i>
+		  {{ datestring }}
+		</span>
+    </h5>
+
+    <hr>
+
+	<span><b>Organisé par : </b> {{ self.organisateur }}</span>
+	<br />
+	<br />
+
+	<span><b>Intervenant : </b> {{ self.intervenant }} ({{ self.interv_orga }})</span>
+	<br />
+	<span><b>Lieu : </b> {{ self.lieu }}</span>
+
+	<br />
+	<br />
+
+	<span><b>Sujet : </b> {{ self.sujet }}</span>
+
+	<br />
+	<br />
+
+	<span><b>Résumé : </b><br />
+    {% for block in self.body %}
+        {% if block.block_type == 'titre' %}
+            <h2>{{ block.value }}</h2>
+        {% else %}
+            <section class="block-{{ block.block_type }}">
+                {{ block }}
+            </section>
+        {% endif %}
+    {% endfor %}
+	</span>
+
+{% endblock %}

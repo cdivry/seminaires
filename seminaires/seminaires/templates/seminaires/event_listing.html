@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load wagtailuserbar %}
+
+{% load static core_tags wagtailcore_tags %}
+
+{% block pre_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+{% endblock %}
+
+{% wagtailuserbar %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block opentag %}{% endblock %}
+{% block closetag %}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>{{ self.title }}</h1>
+
+
+  <!-- CALENDRIER -->
+  <a id="eventlisting_calendar_display_link" class="waves-effect waves-light btn" data-calendar-nav="today" style="display:block; margin: 21px auto;" onclick="afficher_masquer_calendrier();">Afficher le calendrier</a>
+  <br />
+  <div id="eventlisting_calendar" style="display: none;">
+	<div class="row" style="padding-left:8.5%;padding-right:8.5%;">
+      <div class="col s7" style="display:block; margin:21px auto; min-width:521px;">
+		<a class="waves-effect waves-light btn" data-calendar-nav="prev"><i class="material-icons left">keyboard_arrow_left</i> précedent</a>
+		<a class="waves-effect waves-light btn" data-calendar-nav="today">Aujourd'hui</a>
+		<a class="waves-effect waves-light btn" data-calendar-nav="next"><i class="material-icons right">keyboard_arrow_right</i> suivant</a>
+      </div>
+
+      <div  class="input-field col s3 right-align select_calendar_format" style="display:block;float: right !important; height: 42x; margin: 21px auto;min-width:200px;">
+		<select id="viewselect">
+          <option value="year">Année</option>
+          <option value="month" selected>Mois</option>
+          <option value="week">Semaine</option>
+          <option value="day">Jour</option>
+		</select>
+		<label>Vue par</label>
+	  </div>
+	</div>
+
+	<div class="row">
+      <div class="col s1">&nbsp;</div>
+      <div class="col s10">
+		<div class="today-date z-depth-1">12/10/2015</div>
+		<div id="calendar"></div>
+      </div>
+      <div class="col s1">&nbsp;</div>
+	</div>
+	<br />
+	<br />
+  </div>
+
+  <!-- RESUME -->
+  <span><b>Résumé : </b><br />
+	{% for block in self.body %}
+	{% if block.block_type == 'titre' %}
+	<h2>{{ block.value }}</h2>
+	{% else %}
+	<section class="block-{{ block.block_type }}">
+      {{ block }}
+	</section>
+	{% endif %}
+	{% endfor %}
+  </span>
+  <br />
+  <br />
+  <br />
+  <br />
+
+
+  <!-- LISTE D'EVENEMENTS -->
+  <span><b>Evénements : </b><br /><br />
+	<ul>
+	  {% for event in events %}
+	  <li>
+		<a href="{{ event.url }}">
+		  {{ event.title }}
+		</a>
+		(du {{ event.start }} au {{ event.end }})
+	  </li>
+	  {% endfor %}
+	</ul>
+  </span>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/jstz.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/underscore-min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+<script type="text/javascript">
+  var template_path = "{% static 'tmpls' %}/";
+  var source_url = "{{ self.url }}?format=json";
+  var now = new Date().getTime();
+</script>
+<script type="text/javascript" src="{% static 'bscalendar/js/app.js' %}"></script>
+
+<script type="text/javascript">
+
+  function afficher_masquer_calendrier()
+  {
+  var calendrier = document.getElementById('eventlisting_calendar').style.display;
+  if (calendrier == 'none')
+  {
+  document.getElementById('eventlisting_calendar_display_link').innerHTML = 'Masquer le calendrier';
+  document.getElementById('eventlisting_calendar').style.display = 'block';
+  }
+  else
+  {
+  document.getElementById('eventlisting_calendar_display_link').innerHTML = 'Afficher le calendrier';
+  document.getElementById('eventlisting_calendar').style.display = 'none';
+  }
+  //$("div.eventlisting_calendar").css('display', 'none');
+
+  }
+
+
+
+
+  // selectionne la vue par mois au chargement
+  $(document).ready(function() {
+  //$("div.select_calendar_format select").val("month");
+  $("#viewselect").val("month").change();
+  });
+</script>
+
+{% endblock %}
+

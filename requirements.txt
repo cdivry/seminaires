@@ -1,0 +1,4 @@
+Unidecode==0.04.20
+bs4==0.0.1
+icalendar==3.11
+pytz==2016.10

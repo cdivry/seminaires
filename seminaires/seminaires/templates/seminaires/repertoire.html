@@ -1,0 +1,18 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta name="robots" content="NONE,NOARCHIVE" />
+    <title>{% blocktrans %}Index of {{ directory }}{% endblocktrans %}</title>
+  </head>
+  <body>
+    <h1>Liste de vos exports {{ directory }}</h1>
+    <ul>
+      {% for f in file_list %}
+      <li><a href="{{ url }}{{ f }}">{{ f }}</a></li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
