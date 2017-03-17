@@ -251,6 +251,14 @@ def ics_create(fichier, title, url, desc, lang, events):
     fd.close()
 
 def ics_add_event(feed, event):
+
+    start = str(event['start']).split(' ')
+    start = start[0].split('-') + start[1].split(':')
+    start = datetime.datetime(int(start[0]), int(start[1]), int(start[2]), int(start[3]), int(start[4]))
+    end = str(event['end']).split(' ')
+    end = end[0].split('-') + end[1].split(':')
+    end = datetime.datetime(int(end[0]), int(end[1]), int(end[2]), int(end[3]), int(end[4]))
+
     feed.add_item(
         unique_id=str(str(time.time()) + '-EVENT#' + str(event['id']) + '-@'+  LABORATORY_NAME),
         title=str(event['titre']),
@@ -260,9 +268,9 @@ def ics_add_event(feed, event):
         location=str(event['location']),
         organizer=str(event['organizer']),
         attendee=str(event['intervenant']),
-        timestamp=datetime.datetime(2012, 5, 6, 10, 00),
-        start_datetime=datetime.datetime(2012, 5, 6, 10, 00),
-        end_datetime=datetime.datetime(2012, 5, 6, 12, 00),
+        timestamp=start,
+        start_datetime=start,
+        end_datetime=end,
     )
     return (feed)
 
